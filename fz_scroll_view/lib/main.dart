@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'demo/page_view_demo.dart';
 
 void main() {
@@ -39,7 +40,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with PageVisibleUpdatedMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,5 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void visibleChanged() {
+    if (kDebugMode) {
+      print('$runtimeType page visible $visible');
+    }
   }
 }
