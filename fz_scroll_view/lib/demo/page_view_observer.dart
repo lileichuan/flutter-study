@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 class PageViewObserver extends StatefulWidget {
   final int initialPage;
@@ -83,9 +82,9 @@ class _EffectivePageViewObserver extends InheritedWidget {
 
 mixin PageViewObserverMixin<T extends StatefulWidget> on State<T> {
 
-  bool _visible =  true;
+  bool _leave = false;
 
-  bool get visible => _visible;
+  bool get leave => _leave;
 
   ValueNotifier<int>? _pageViewChangedNotifier;
 
@@ -121,7 +120,7 @@ mixin PageViewObserverMixin<T extends StatefulWidget> on State<T> {
 
   void _pageViewChanged() {
     if(_indexedSemantics!=null){
-      visible = _indexedSemantics!.index == _pageViewChangedNotifier!.value;
+      leave = _indexedSemantics!.index != _pageViewChangedNotifier!.value;
     }
   }
 
@@ -135,11 +134,11 @@ mixin PageViewObserverMixin<T extends StatefulWidget> on State<T> {
     _pageViewChangedNotifier = newNotifier;
   }
 
-  void visibleChanged();
+  void leaveChanged();
 
-  set visible(bool value) {
-    if (value == visible) return;
-    _visible = value;
-    visibleChanged();
+  set leave(bool value) {
+    if (value == _leave) return;
+    _leave = value;
+    leaveChanged();
   }
 }

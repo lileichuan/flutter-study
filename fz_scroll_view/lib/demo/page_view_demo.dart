@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'page_visible_updated.dart';
 import 'page_view_observer.dart';
 class PageViewDemo extends StatefulWidget {
   const PageViewDemo({Key? key}) : super(key: key);
@@ -40,8 +41,8 @@ class _PageViewDemoState extends State<PageViewDemo> with PageVisibleUpdatedMixi
     if (kDebugMode) {
       print('$runtimeType page visible $visible');
     }
-    setState(() {
-    });
+    // setState(() {
+    // });
   }
 }
 
@@ -109,12 +110,19 @@ class _PageItemState extends State<PageItem> with AutomaticKeepAliveClientMixin,
 
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   @override
   void visibleChanged() {
     if (kDebugMode) {
       print('$runtimeType page ${widget.index} visible $visible');
+    }
+  }
+
+  @override
+  void leaveChanged(){
+    if (kDebugMode) {
+      print('$runtimeType page ${widget.index} leave $leave');
     }
   }
 }
@@ -134,59 +142,6 @@ class _PageDetailState extends State<PageDetail> {
   }
 }
 
-mixin PageVisibleUpdatedMixin<T extends StatefulWidget> on State<T> {
 
-  bool _visible =  true;
-
-  bool get visible => _visible;
-
-  ValueNotifier<bool>? _tickerModeNotifier;
-
-  @override
-  void dispose() {
-    _tickerModeNotifier?.removeListener(_updateTicker);
-    _tickerModeNotifier = null;
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _updateTickerModeNotifier();
-  }
-
-
-  @override
-  void activate() {
-    super.activate();
-    // We may have a new TickerMode ancestor.
-    _updateTickerModeNotifier();
-    _updateTicker();
-  }
-
-  void _updateTicker() {
-    if (_visible != _tickerModeNotifier!.value) {
-      visible = _tickerModeNotifier!.value;
-    }
-  }
-
-  void _updateTickerModeNotifier() {
-    final ValueNotifier<bool> newNotifier = TickerMode.getNotifier(context);
-    if (newNotifier == _tickerModeNotifier) {
-      return;
-    }
-    _tickerModeNotifier?.removeListener(_updateTicker);
-    newNotifier.addListener(_updateTicker);
-    _tickerModeNotifier = newNotifier;
-  }
-
-  void visibleChanged();
-
-  set visible(bool value) {
-    if (value == visible) return;
-    _visible = value;
-    visibleChanged();
-  }
-}
 
 

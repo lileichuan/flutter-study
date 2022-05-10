@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'demo/page_view_demo.dart';
-
+import 'demo/page_visible_updated.dart';
 void main() {
   runApp(const MyApp());
 }
