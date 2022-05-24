@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demos/02/global_widget.dart';
+import 'package:flutter_demos/02/hero_widget.dart';
+import 'package:flutter_demos/02/inhirited_widget.dart';
+import 'package:flutter_demos/04_custom_scroll_view.dart';
 import '';
 import '01/render_object_widget.dart';
 void main() {
@@ -40,16 +44,35 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:const <Widget>[
-            Text(
+          children:<Widget>[
+            const Text(
               'You have pushed the button this many times:',
             ),
-            FzRenderObjectWidget(),
-            SizedBox(
+            const FzRenderObjectWidget(),
+            const SizedBox(
               width: 500,
               height:50,
-              child:FzRenderObjectWidget()
-            )
+            ),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return  const GlobalWidgetDemo();
+              }));
+            }, child: const Text('Global Widget demo')),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return  const HeroDemo();
+              }));
+            }, child: const Text('Hero Widget demo')),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return  const CustomScrollViewDemo();
+              }));
+            }, child: const Text('custom scrollview demo')),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return  const InheritedWidgetDemo();
+              }));
+            }, child: const Text('inherited widget demo'))
           ],
         ),
       ),

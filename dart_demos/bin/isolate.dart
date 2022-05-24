@@ -1,25 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 import 'dart:isolate';
 
-void main() async {
-  // Read some data.
-  final jsonData = await _parseInBackground();
-
-  // Use that data
-  print('Number of JSON keys: ${jsonData.length}');
+Future<void> main() async {
+  final filename = 'assets/json_01.json';
+  final jsonData = await _spawnAndReceive(filename);
+  print('Received JSON with ${jsonData.length} keys');
 }
-
-// Spawns an isolate and waits for the first message
-Future<Map<String, dynamic>> _parseInBackground() async {
+Future<Map<String, dynamic>> _spawnAndReceive(String fileName) async {
   final p = ReceivePort();
-  await Isolate.spawn(_readAndParseJson, p.sendPort);
-  return await p.first as Map<String, dynamic>;
+  await Isolate.spawn(_readAndParseJson, [p.sendPort, fileName]);
+  return (await p.first) as Map<String, dynamic>;
 }
 
+// The entrypoint that runs on the spawned isolate. Reads the contents of
+// fileName, decodes the JSON, and sends the result back the the main
+// isolate.
+void _readAndParseJson(List<dynamic> args) async {
+  SendPort responsePort = args[0];
+  String fileName = args[1];
 
-Future<void> _readAndParseJson(SendPort p) async {
-  final fileData = await File(filename).readAsString();
-  final jsonData = jsonDecode(fileData);
-  Isolate.exit(p, jsonData);
+  final fileData = await File(fileName).readAsString();
+  final result = jsonDecode(fileData);
+  Isolate.exit(responsePort, result);
 }
