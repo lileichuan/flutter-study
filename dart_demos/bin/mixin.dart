@@ -1,5 +1,8 @@
 void main(List<String> arguments) {
-  SubClass();
+  // SubClass();
+  final test = Test();
+  test.test();
+
 }
 
 
@@ -56,5 +59,38 @@ mixin  MixinC on AbstractClass,MixinA,MixinB{
   void initInstances() {
     super.initInstances();
     print("MixinC initInstances");
+  }
+}
+
+
+
+mixin TestA{
+  void log(){
+    print('TestA log');
+  }
+}
+
+mixin TestB{
+  void log(){
+    print('TestB log');
+  }
+}
+
+mixin TestC{
+  void testC(){
+    print('TestB log');
+  }
+}
+
+
+class Test with TestA,TestB{
+  void test(){
+    log();
+  }
+
+  @override
+  void log(){
+    super.log();
+    print("Test log");
   }
 }

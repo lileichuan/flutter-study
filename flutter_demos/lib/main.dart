@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demos/02/global_widget.dart';
 import 'package:flutter_demos/02/hero_widget.dart';
 import 'package:flutter_demos/02/inhirited_widget.dart';
+import 'package:flutter_demos/02/list_wheel_scroll_view.dart';
 import 'package:flutter_demos/04_custom_scroll_view.dart';
 import '';
 import '01/render_object_widget.dart';
@@ -72,7 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).push(MaterialPageRoute(builder: (context){
                 return  const InheritedWidgetDemo();
               }));
-            }, child: const Text('inherited widget demo'))
+            }, child: const Text('inherited widget demo')),
+            TextButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return  const ListWheelScrollViewDemo();
+              }));
+            }, child: const Text('list wheel scroll view demo'))
           ],
         ),
       ),
